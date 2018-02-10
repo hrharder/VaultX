@@ -1,12 +1,11 @@
 #!/usr/bin/python3
-# VaultX Alpha - Experimental (0.4.2)
+# VaultX Alpha - STABLE (0.4.2)
+# By Henry Harder - All Rights Reserved
+
 import pyperclip as pyp
 import pyAesCrypt as pac
 from tkinter import*
-import csv
-import sys
-import os
-import pickle
+import csv, sys, os, pickle
 import config
 
 class new_wallet():
@@ -29,6 +28,7 @@ class PassBag():
     def remove(self, wallet):
         del self.wallets[wallet]
 
+
 class MainApp(Frame):
     def __init__(self, parent, bag):
         Frame.__init__(self, parent)
@@ -50,7 +50,7 @@ class MainApp(Frame):
         key_entry = Entry(lock_window, show='*')
         key_entry.pack()
         unlock_btn = Button(lock_window, text='Unlock',
-            command=lambda: self.unlock(lock_window, key_entry))
+                            command=lambda: self.unlock(lock_window, key_entry))
         unlock_btn.pack()
         lock_window.pack()
         lock_window.mainloop()
@@ -59,7 +59,8 @@ class MainApp(Frame):
         out_file = None
         self.temp_key = "".join(key_entry.get())
         try:
-            pac.decryptFile(config.data_n, config.data_o, self.temp_key, self.bsize)
+            pac.decryptFile(config.data_n, config.data_o,
+                            self.temp_key, self.bsize)
             try:
                 pickle_file = open(config.data_o, 'rb')
                 loaded_wallet = pickle.load(pickle_file)
@@ -89,14 +90,17 @@ class MainApp(Frame):
         self.listbox = listbox
         for i in range(1, len(option_list)):
             new_btn = Radiobutton(option_frame, text=option_list[i],
-             variable=self.option, value=i)
+                                  variable=self.option, value=i)
             select_btns.append(new_btn)
         for i in wallet_list:
             listbox.insert(END, i)
         button_frame.pack(fill=X)
-        new_wallet = Button(option_frame, text='Add New Wallet',command=self.gui_add_wallet)
-        remove_wallet = Button(option_frame, text='Remove Selected Wallet', command=lambda: self.gui_delete_wallet())
-        copy = Button(option_frame, text='Copy Information',command=lambda: self.copy_data())
+        new_wallet = Button(option_frame, text='Add New Wallet',
+                            command=self.gui_add_wallet)
+        remove_wallet = Button(
+            option_frame, text='Remove Selected Wallet', command=lambda: self.gui_delete_wallet())
+        copy = Button(option_frame, text='Copy Information',
+                      command=lambda: self.copy_data())
         select_frame.columnconfigure(0, weight=1)
         select_frame.columnconfigure(1, weight=1)
         button_frame.grid(column=1)
@@ -124,7 +128,8 @@ class MainApp(Frame):
         object_file = open(config.temp_n, 'wb+')
         pickle.dump(self.bag.wallets, object_file, protocol=4)
         object_file.close()
-        pac.encryptFile(config.temp_n, config.data_n, self.temp_key, self.bsize)
+        pac.encryptFile(config.temp_n, config.data_n,
+                        self.temp_key, self.bsize)
         os.remove(config.temp_n)
 
     def gui_new_wallet(self, n, ps, sd, pk, window):
@@ -179,6 +184,7 @@ class MainApp(Frame):
         for i in these_widgets:
             i.pack()
         wallet_add_window_frame.mainloop()
+
 
 if __name__ == '__main__':
     os.chdir(config.data_dir)

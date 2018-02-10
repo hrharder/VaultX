@@ -1,6 +1,6 @@
 ## Insert your private Vault directory here
 ##
-data_dir = '/Volumes/Keys/Other/data/'
+data_dir = '/Users/henryharder/desktop/projects/VaultX/bin/data/'
 ##
 ##
 data_n = 'data.nonya'
