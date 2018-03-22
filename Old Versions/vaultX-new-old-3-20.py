@@ -33,17 +33,20 @@ Custom modules: (written for this program)
 import config
 from vault import*
 
-# Begin main class declarations
+#:: Begin main class declarations
 
-class VaultX(Frame):
+class MainApp(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
-        self.parent.resizable(width=False, height=False)
         self.winfo_toplevel().title('VaultX Beta (0.0.6)')
         self.option_list = config.option_list
         self.verbose = StringVar()
         self.option = IntVar()
+        self.bsize = 65536
+        self.wallet_list = None
+        self.listbox = None
+        self.temp_key = None
         self.vault = Vault()
         self.text_widget = None
         self.top_frame = None
@@ -75,13 +78,12 @@ class VaultX(Frame):
 
         unlock_btn.grid(column=0, row=0, padx=5, pady=5)
         new_wallet_btn.grid(column=1, row=0, padx=5, pady=5)
+
         self.text_widget.grid(column=0, row=0, padx=5, pady=10)
-        key_entry.grid(column=0, row=1, ipady=10, ipadx=10)
-        button_frame.grid(column=0, row=2, pady=10)
+        key_entry.grid(column=0, row=1, ipady=15, ipadx=30)
+        button_frame.grid(column=0, row=2, pady=30)
         lock_window.grid(column=1, row=1)
-
         self.verbose.set('Enter password or create new Vault.')
-
         app_frame.pack(fill='both', expand=True)
         lock_window.mainloop()
 
@@ -94,19 +96,15 @@ class VaultX(Frame):
 
     def new_vault(self, lock_window, key_entry, app_frame):
         self.vault = Vault()
-        while len(key_entry.get()) < 4:
-            self.verbose.set('Please enter a longer encryption key.')
-            return
         self.verbose.set('New vault created with password.')
         app_frame.destroy()
         self.make_widgets(self.option_list)
 
     def make_widgets(self, option_list):
-        self.winfo_toplevel().title('VaultX 0.0.6')
-
-        self.top_frame = Frame(self.parent,pady=5, padx=5)
+        self.top_frame = Frame(self.parent)
         dapp_frame = Frame(self.top_frame)
-        
+        wallet_list = list(self.vault.wallets.keys())
+        self.winfo_toplevel().title('VaultX 0.0.6')
 
         self.top_frame.grid_rowconfigure(0, weight=1)
         self.top_frame.grid_rowconfigure(1, weight=1)
@@ -114,8 +112,8 @@ class VaultX(Frame):
         dapp_frame.grid_columnconfigure(0)
         dapp_frame.grid_columnconfigure(1)
 
-        right_frame = Frame(dapp_frame, pady=5, padx=5)
-        left_frame = Frame(dapp_frame, pady=5, padx=5)
+        right_frame = Frame(dapp_frame)
+        left_frame = Frame(dapp_frame)
 
         button_frame = Frame(self.top_frame)
         message_frame = Frame(self.top_frame)
@@ -130,19 +128,22 @@ class VaultX(Frame):
         
 
         listbox = Listbox(right_frame)
+        self.listbox = listbox
+
         listbox.grid(column=0, row=0)
+
         select_btns = []
 
         for i in range(1, len(option_list)):
             new_btn = Radiobutton(left_frame, text=option_list[i], variable=self.option, value=i)
             select_btns.append(new_btn)
 
-        for i in list(self.vault.wallets.keys()):
+        for i in wallet_list:
             listbox.insert(END, i)
 
         new_wallet = Button(button_frame, text='Add', command=self.gui_add_wallet)
-        remove_wallet = Button(button_frame, text='Remove', command=lambda: self.gui_delete_wallet(listbox))
-        copy = Button(button_frame, text='Copy Field', command=lambda: self.copy_data(listbox))
+        remove_wallet = Button(button_frame, text='Remove', command=lambda: self.gui_delete_wallet())
+        copy = Button(button_frame, text='Copy Field', command=lambda: self.copy_data())
 
         new_wallet.grid(column=0, row=0, sticky=W)
         remove_wallet.grid(column=1, row=0, sticky=W)
@@ -166,8 +167,8 @@ class VaultX(Frame):
         self.top_frame.pack(expand=True, fill='both')
         self.top_frame.mainloop()
 
-    def copy_data(self, listbox):
-        value = listbox.get(listbox.curselection())
+    def copy_data(self):
+        value = self.listbox.get(self.listbox.curselection())
         int_option = self.option.get()
         if int_option == 1:
             pyp.copy(self.vault.wallets[value].pas)
@@ -180,54 +181,61 @@ class VaultX(Frame):
     def encrypt_data(self):
         self.vault.update_data()
         self.verbose.set(self.vault.message)
+        return
 
     def gui_new_wallet(self, n, ps, sd, pk, window):
-        self.vault.add(Wallet(n, ps, sd, pk))
+        thiswallet = Wallet(n, ps, sd, pk)
+        self.vault.add(thiswallet)
         window.destroy()
+        self.listbox.delete(0, END)
         self.top_frame.destroy()
+        self.wallet_list = list(self.vault.wallets.keys())
         self.make_widgets(self.option_list)
         self.encrypt_data()
+        return
 
-    def gui_delete_wallet(self, listbox):
-        self.vault.remove(listbox.get(listbox.curselection()))
+    def gui_delete_wallet(self):
+        wallet = self.listbox.get(self.listbox.curselection())
+        self.vault.remove(wallet)
+        self.listbox.delete(0, END)
         self.top_frame.destroy()
+        self.wallet_list = list(self.vault.wallets.keys())
         self.make_widgets(self.option_list)
         self.encrypt_data()
 
     def gui_add_wallet(self):
-        wallet_add_window = Toplevel(self.parent)
-        add_wallet_frame = Frame(wallet_add_window)
-
-        Label(add_wallet_frame, text='Name:').grid(row=0)
-        name_entry = Entry(add_wallet_frame)
+        wallet_add_window = Toplevel(self.parent, bg='#222')
+        wallet_add_window_frame = Frame(wallet_add_window)
+        Label(wallet_add_window, text='Name:', bg='#111111', fg='#D7DDDC',bd=0, justify="left").grid(row=0)
+        name_entry = Entry(wallet_add_window, bg='#555',fg='#D7DDDC',highlightbackground='#353B3C',
+            highlightthickness='2',highlightcolor='#A3A3A3',bd=0)
         name_entry.grid(row=1)
 
-        Label(add_wallet_frame, text='Password:').grid(row=2)
-        pas_entry = Entry(add_wallet_frame)
+        Label(wallet_add_window, text='Password:', bg='#222', fg='#D7DDDC').grid(row=2)
+        pas_entry = Entry(wallet_add_window, bg='#555',fg='#D7DDDC',highlightbackground='#353B3C',
+            highlightthickness='2',highlightcolor='#A3A3A3',bd=0)
         pas_entry.grid(row=3)
 
-        Label(add_wallet_frame, text='Seed:').grid(row=4)
-        seed_entry = Entry(add_wallet_frame)
+        Label(wallet_add_window, text='Seed:', bg='#222', fg='#D7DDDC').grid(row=4)
+        seed_entry = Entry(wallet_add_window, bg='#555',fg='#D7DDDC',highlightbackground='#353B3C',
+            highlightthickness='2',highlightcolor='#A3A3A3',bd=0)
         seed_entry.grid(row=5)
 
-        Label(add_wallet_frame, text='Private Key:').grid(row=6)
-        pkey_entry = Entry(add_wallet_frame)
+        Label(wallet_add_window, text='Private Key:', bg='#222', fg='#D7DDDC').grid(row=6)
+        pkey_entry = Entry(wallet_add_window, bg='#555',fg='#D7DDDC',highlightbackground='#353B3C',
+            highlightthickness='2',highlightcolor='#A3A3A3',bd=0)
         pkey_entry.grid(row=7)
 
-        Button(add_wallet_frame, text='Add Entry', command=lambda: 
+        Button(wallet_add_window, text='Add Entry', bg='#222', highlightbackground='#222', command=lambda: 
                     self.gui_new_wallet(name_entry.get(), pas_entry.get(), 
                     seed_entry.get(), pkey_entry.get(), wallet_add_window)).grid(row=10)
 
-        add_wallet_frame.pack(expand=True, fill='both')
-        add_wallet_frame.mainloop()
+        wallet_add_window_frame.mainloop()
 
-# End main class declarations
-
-# Begin main loop
+# End class declarations
 
 if __name__ == '__main__':
     os.chdir(config.data_dir)
-    main_gui = VaultX(Tk())
-    main_gui.mainloop()
-
-# End main loop
+    main_tk = Tk()
+    main_app = MainApp(main_tk)
+    main_app.mainloop()
