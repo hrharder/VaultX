@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-# VaultX Beta (0.0.6)
-# Version date: 20 March 2018
+# VaultX Beta (0.0.7)
+# Version date: 6 May 2018
 # By Henry Harder
 # All Rights Reserved (2018)
 
@@ -24,12 +24,25 @@ class Vault():
     def open(self, key_entry):
         os.chdir(config.data_dir)
         self.temp_key = ''.join(key_entry.get())
-        pac.decryptFile(config.data_e, config.data_u,
-                            self.temp_key, self.bsize)
+
+        try:
+            pac.decryptFile(config.data_e, config.data_u,
+                                self.temp_key, self.bsize)
+
+        except ValueError:
+            self.message = 'Incorrect password or corrupted file.'
+            return 0
+
+        except IOError:
+            self.message = 'Error encountered while opening file.'
+            return 0
+
         pickle_file = open(config.data_u, 'rb')
         self.wallets = pickle.load(pickle_file)
         self.message = 'Data loaded from secure file.'
         os.remove(config.data_u)
+
+        return 1
 
     def update_data(self):
         os.chdir(config.data_dir)

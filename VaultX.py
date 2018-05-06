@@ -1,6 +1,6 @@
-#!/usr/bin/python3
-# VaultX Beta (0.0.6)
-# Version date: 20 March 2018
+#!/usr/local/bin/python3
+# VaultX Beta (0.1.1)
+# Version date: 16 April 2018
 # By Henry Harder
 # All Rights Reserved (2018)
 
@@ -26,7 +26,7 @@ import sys, os, pickle
 
 '''
 Custom modules: (written for this program)
-    - config:  containing file path and other config information
+    - config:  containing file path and other config information that users can and should modify
     - vault: secure class that handles encryption/decryption and storage of data
 '''
 
@@ -86,11 +86,14 @@ class VaultX(Frame):
         lock_window.mainloop()
 
     def unlock(self, parent, lock_window, key_entry, app_frame):
-        self.vault.open(key_entry)
-        self.verbose.set(self.vault.message)
-        lock_window.destroy()
-        app_frame.destroy()
-        self.make_widgets(self.option_list)
+        if self.vault.open(key_entry) == 1:
+            self.verbose.set(self.vault.message)
+            lock_window.destroy()
+            app_frame.destroy()
+            self.make_widgets(self.option_list)
+        else:
+            self.verbose.set(self.vault.message)
+            return
 
     def new_vault(self, lock_window, key_entry, app_frame):
         self.vault = Vault()
@@ -111,23 +114,11 @@ class VaultX(Frame):
         self.top_frame.grid_rowconfigure(0, weight=1)
         self.top_frame.grid_rowconfigure(1, weight=1)
 
-        dapp_frame.grid_columnconfigure(0)
-        dapp_frame.grid_columnconfigure(1)
-
         right_frame = Frame(dapp_frame, pady=5, padx=5)
         left_frame = Frame(dapp_frame, pady=5, padx=5)
 
         button_frame = Frame(self.top_frame)
         message_frame = Frame(self.top_frame)
-
-        button_frame.grid_columnconfigure(0)
-        button_frame.grid_columnconfigure(1)
-        button_frame.grid_columnconfigure(2)
-
-        right_frame.grid_columnconfigure(0)
-
-        left_frame.grid_columnconfigure(0)
-        
 
         listbox = Listbox(right_frame)
         listbox.grid(column=0, row=0)
@@ -140,13 +131,15 @@ class VaultX(Frame):
         for i in list(self.vault.wallets.keys()):
             listbox.insert(END, i)
 
-        new_wallet = Button(button_frame, text='Add', command=self.gui_add_wallet)
-        remove_wallet = Button(button_frame, text='Remove', command=lambda: self.gui_delete_wallet(listbox))
-        copy = Button(button_frame, text='Copy Field', command=lambda: self.copy_data(listbox))
+        new_wallet = Button(button_frame, text='Create Entry', command=self.gui_add_wallet)
+        remove_wallet = Button(button_frame, text='Remove Entry', command=lambda: self.gui_delete_wallet(listbox))
+        copy = Button(button_frame, text='Copy Data', command=lambda: self.copy_data(listbox))
+        display = Button(button_frame, text='Display Data', command=lambda: self.display_data(listbox))
 
-        new_wallet.grid(column=0, row=0, sticky=W)
+        new_wallet.grid(column=0, row=0, sticky=E)
         remove_wallet.grid(column=1, row=0, sticky=W)
-        copy.grid(column=2, row=0, sticky=W)
+        copy.grid(column=0, row=1, sticky=E)
+        display.grid(column=1, row=1, sticky=W)
         
         for i in range(len(select_btns)):
             select_btns[i].grid(column=0, row=i, sticky=W)
@@ -167,15 +160,37 @@ class VaultX(Frame):
         self.top_frame.mainloop()
 
     def copy_data(self, listbox):
-        value = listbox.get(listbox.curselection())
-        int_option = self.option.get()
-        if int_option == 1:
-            pyp.copy(self.vault.wallets[value].pas)
-        elif int_option == 2:
-            pyp.copy(self.vault.wallets[value].seed)
-        elif int_option == 3:
-            pyp.copy(self.vault.wallets[value].pkey)
-        self.verbose.set('Sucessfully copied information.')
+        yes_msg = 'Sucessfully copied information.'
+        no_msg = 'Please select an entry.'
+        try:
+            value = listbox.get(listbox.curselection())
+            int_option = self.option.get()
+            if int_option == 1:
+                pyp.copy(self.vault.wallets[value].pas)
+                self.verbose.set(yes_msg)
+            elif int_option == 2:
+                pyp.copy(self.vault.wallets[value].seed)
+                self.verbose.set(yes_msg)
+            elif int_option == 3:
+                pyp.copy(self.vault.wallets[value].pkey)
+                self.verbose.set(yes_msg)
+            else:
+                self.verbose.set(no_msg)
+        except:
+            self.verbose.set(no_msg)  
+
+    def display_data(self, listbox):
+        try:
+            value = listbox.get(listbox.curselection())
+            int_option = self.option.get()
+            if int_option == 1:
+                self.verbose.set(self.vault.wallets[value].pas)
+            elif int_option == 2:
+                self.verbose.set(self.vault.wallets[value].seed)
+            elif int_option == 3:
+                self.verbose.set(self.vault.wallets[value].pkey)
+        except:
+            self.verbose.set('Please select an entry.')
 
     def encrypt_data(self):
         self.vault.update_data()
@@ -189,10 +204,13 @@ class VaultX(Frame):
         self.encrypt_data()
 
     def gui_delete_wallet(self, listbox):
-        self.vault.remove(listbox.get(listbox.curselection()))
-        self.top_frame.destroy()
-        self.make_widgets(self.option_list)
-        self.encrypt_data()
+        try:
+            self.vault.remove(listbox.get(listbox.curselection()))
+            self.top_frame.destroy()
+            self.make_widgets(self.option_list)
+            self.encrypt_data()
+        except:
+            self.verbose.set('Please select an entry to remove.')
 
     def gui_add_wallet(self):
         wallet_add_window = Toplevel(self.parent)
