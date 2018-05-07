@@ -73,7 +73,7 @@ class Vault():
             else:
                 verbose.set(no_msg)
         except:
-            verbose.set(no_msg)
+            verbose.set('Something is wrong')
 
 class Wallet():
     def __init__(self, name, passw, seed, privkey='none', addr='none'):
