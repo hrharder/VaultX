@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
-# VaultX (0.1.2)
-# Version date: 5 May 2018
+# VaultX (0.1.2) @ dev
+# Version date: 6 May 2018
 # By Henry Harder
 
 '''
@@ -191,6 +191,9 @@ class VaultX(Frame):
                 self.verbose.set(yes_msg)
             elif int_option == 3:
                 pyp.copy(self.vault.wallets[value].pkey)
+                self.verbose.set(yes_msg)
+            elif int_option == 4:
+                pyp.copy(self.vault.wallets[value].addr)
                 self.verbose.set(yes_msg)
             else:
                 self.verbose.set(no_msg)

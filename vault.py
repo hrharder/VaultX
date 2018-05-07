@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-# VaultX Beta (0.1.2)
-# Version date: 6 May 2018
+# VaultX Beta (0.1.2) @ dev
+# Version date: 7 May 2018
 # By Henry Harder
 
 import pyAesCrypt as pac
@@ -54,8 +54,9 @@ class Vault():
         self.message = 'Successfully updated secure data.'
 
 class Wallet():
-    def __init__(self, name, passw, seed, privkey='none'):
+    def __init__(self, name, passw, seed, privkey='none', addr='none'):
         self.name = str(name)
         self.pas = str(passw)
         self.seed = str(seed)
         self.pkey = str(privkey)
+        self.addr = str(addr)

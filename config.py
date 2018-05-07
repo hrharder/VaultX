@@ -5,14 +5,14 @@
 
 ## Insert your private Vault directory here
 ##
-data_dir = '/' # CHANGE THIS
+data_dir = '/Users/hen/desktop/vaultx-dev/' # CHANGE THIS
 ##
 ##
 
 ### Ignore this, and don't change it unless you know what you are
-### doing or want to break something. 
+### doing or want to break something.
 
 data_e = 'data.nonya'
 data_u = 'other.nonya'
 temp_n = 'temp.nonya'
-option_list = ['none', 'Password', 'Seed', 'Private Key']
+option_list = ['none', 'Password', 'Seed', 'Private Key', 'Address']
