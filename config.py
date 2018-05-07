@@ -5,7 +5,7 @@
 
 ## Insert your private Vault directory here
 ##
-data_dir = '/Users/hen/desktop/vaultx-dev/' # CHANGE THIS
+data_dir = '/' # CHANGE THIS
 ##
 ##
 
