@@ -2,7 +2,6 @@
 # VaultX (0.1.2)
 # Version date: 5 May 2018
 # By Henry Harder
-# All Rights Reserved (2018)
 
 '''
 Dependant modules (must be installed to function):
@@ -14,7 +13,7 @@ Dependant modules (must be installed to function):
 
     --- (the ones below should come pre-installed with Python 3+) ----
 
-    4) tkinter: used to create the gui
+    4) tkinter: used to create the GUI
     5) sys: interface with user system
     6) os: used to change directory
 '''
@@ -25,7 +24,7 @@ from tkinter import*
 import sys, os, pickle
 
 '''
-Custom modules: (written for this program)
+Custom 'modules': (written for this program)
     - config:  containing file path and other config information that users can and should modify
     - vault: secure class that handles encryption/decryption and storage of data
 '''
@@ -105,7 +104,7 @@ class VaultX(Frame):
         self.make_widgets(self.option_list)
 
     def make_widgets(self, option_list):
-        self.winfo_toplevel().title('VaultX 0.0.6')
+        self.winfo_toplevel().title('VaultX 0.1.2')
 
         self.top_frame = Frame(self.parent,pady=5, padx=5)
         dapp_frame = Frame(self.top_frame)

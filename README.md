@@ -1,5 +1,5 @@
-## VaultX
-###### Locally encrypt and store private data on your machine.
+# VaultX
+#### Locally encrypt and store private data on your machine.
 
 I created this program to manage my private keys for my various cryptocurrency wallets, being frustrated with the software that was available, and not wanting to spend money on a hardware wallet.
 
@@ -39,5 +39,3 @@ ___
   	- ```pickle``` - included with Python3.x, this is the data structure used to dump data into a local file.
   	- ```pyAesCrypt``` - uses industry-standard AES-256 encryption to secure private data file with your password.
   	- ```pyperclip``` - used to copy data to clipboard
-
-___

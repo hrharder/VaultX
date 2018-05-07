@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-# VaultX Beta (0.0.7)
+# VaultX Beta (0.1.2)
 # Version date: 6 May 2018
 # By Henry Harder
-# All Rights Reserved (2018)
 
 import pyAesCrypt as pac
 import os, pickle
