@@ -211,21 +211,21 @@ class VaultX(Frame):
         name_entry = Entry(add_wallet_frame)
         name_entry.grid(row=1)
 
-        Label(add_wallet_frame, text='Password:').grid(row=2)
-        pas_entry = Entry(add_wallet_frame)
-        pas_entry.grid(row=3)
-
-        Label(add_wallet_frame, text='Seed:').grid(row=4)
-        seed_entry = Entry(add_wallet_frame)
-        seed_entry.grid(row=5)
-
-        Label(add_wallet_frame, text='Private Key:').grid(row=6)
-        pkey_entry = Entry(add_wallet_frame)
-        pkey_entry.grid(row=7)
-
-        Label(add_wallet_frame, text='Address:').grid(row=8)
+        Label(add_wallet_frame, text='Address:').grid(row=2)
         addr_entry = Entry(add_wallet_frame)
-        addr_entry.grid(row=9)
+        addr_entry.grid(row=3)
+
+        Label(add_wallet_frame, text='Password:').grid(row=4)
+        pas_entry = Entry(add_wallet_frame)
+        pas_entry.grid(row=5)
+
+        Label(add_wallet_frame, text='Seed:').grid(row=6)
+        seed_entry = Entry(add_wallet_frame)
+        seed_entry.grid(row=7)
+
+        Label(add_wallet_frame, text='Private Key:').grid(row=8)
+        pkey_entry = Entry(add_wallet_frame)
+        pkey_entry.grid(row=9)
 
         Button(add_wallet_frame, text='Add Entry', command=lambda:
                     self.gui_new_wallet(

@@ -15,4 +15,4 @@ data_dir = '/Users/hen/desktop/vaultx-dev/' # CHANGE THIS
 data_e = 'data.nonya'
 data_u = 'other.nonya'
 temp_n = 'temp.nonya'
-option_list = ['none', 'Password', 'Seed', 'Private Key', 'Address']
+option_list = ['none', 'Address', 'Password', 'Seed', 'Private Key']

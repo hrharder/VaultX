@@ -63,16 +63,16 @@ class Vault():
     def copy_data(self, value, option, msg):
         try:
             if option == 1:
-                pyp.copy(self.wallets[value].pas)
+                pyp.copy(self.wallets[value].addr)
                 msg.set(self.resp['yes'])
             elif option == 2:
-                pyp.copy(self.wallets[value].seed)
+                pyp.copy(self.wallets[value].pas)
                 msg.set(self.resp['yes'])
             elif option == 3:
-                pyp.copy(self.wallets[value].pkey)
+                pyp.copy(self.wallets[value].seed)
                 msg.set(self.resp['yes'])
             elif option == 4:
-                pyp.copy(self.wallets[value].addr)
+                pyp.copy(self.wallets[value].pkey)
                 msg.set(self.resp['yes'])
             else:
                 msg.set(self.resp['no'])
