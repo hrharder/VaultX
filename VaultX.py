@@ -25,7 +25,8 @@ import sys, os, pickle
 
 '''
 Custom 'modules': (written for this program)
-    - config:  containing file path and other config information that users can and should modify
+    - config:  containing file path and other config information that users can
+               and should modify.
     - vault: secure class that handles encryption/decryption and storage of data
 '''
 
@@ -53,11 +54,17 @@ class VaultX(Frame):
         lock_window = Frame(app_frame)
         button_frame = Frame(lock_window)
 
-        self.text_widget = Label(lock_window, textvariable=self.verbose, anchor=W)
+        self.text_widget = Label(lock_window,
+            textvariable=self.verbose,
+            anchor=W)
         key_entry = Entry(lock_window, show='*',justify='center')
 
         unlock_btn = Button(button_frame, text='Unlock Existing Vault',
-            command=lambda: self.unlock(self.parent, lock_window, key_entry, app_frame))
+            command=lambda: self.unlock(self.parent,
+                lock_window,
+                key_entry,
+                app_frame))
+
         new_wallet_btn = Button(button_frame, text='Encrypt New Vault',
             command=lambda: self.new_vault(lock_window, key_entry, app_frame))
 
@@ -124,16 +131,30 @@ class VaultX(Frame):
         select_btns = []
 
         for i in range(1, len(option_list)):
-            new_btn = Radiobutton(left_frame, text=option_list[i], variable=self.option, value=i)
+            new_btn = Radiobutton(left_frame,
+             text=option_list[i],
+             variable=self.option,
+             value=i)
             select_btns.append(new_btn)
 
         for i in list(self.vault.wallets.keys()):
             listbox.insert(END, i)
 
-        new_wallet = Button(button_frame, text='Create Entry', command=self.gui_add_wallet)
-        remove_wallet = Button(button_frame, text='Remove Entry', command=lambda: self.gui_delete_wallet(listbox))
-        copy = Button(button_frame, text='Copy Data', command=lambda: self.copy_data(listbox))
-        display = Button(button_frame, text='Display Data', command=lambda: self.display_data(listbox))
+        new_wallet = Button(button_frame,
+            text='Create Entry',
+            command=self.gui_add_wallet)
+
+        remove_wallet = Button(button_frame,
+            text='Remove Entry',
+            command=lambda: self.gui_delete_wallet(listbox))
+
+        copy = Button(button_frame,
+            text='Copy Data',
+            command=lambda: self.copy_data(listbox))
+
+        display = Button(button_frame,
+            text='Display Data',
+            command=lambda: self.display_data(listbox))
 
         new_wallet.grid(column=0, row=0, sticky=E)
         remove_wallet.grid(column=1, row=0, sticky=W)
@@ -232,8 +253,11 @@ class VaultX(Frame):
         pkey_entry.grid(row=7)
 
         Button(add_wallet_frame, text='Add Entry', command=lambda:
-                    self.gui_new_wallet(name_entry.get(), pas_entry.get(),
-                    seed_entry.get(), pkey_entry.get(), wallet_add_window)).grid(row=10)
+                    self.gui_new_wallet(name_entry.get(),
+                        pas_entry.get(),
+                        seed_entry.get(),
+                        pkey_entry.get(),
+                        wallet_add_window)).grid(row=10)
 
         add_wallet_frame.pack(expand=True, fill='both')
         add_wallet_frame.mainloop()
