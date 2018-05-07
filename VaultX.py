@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
-# VaultX Beta (0.1.1)
-# Version date: 16 April 2018
+# VaultX (0.1.2)
+# Version date: 5 May 2018
 # By Henry Harder
 # All Rights Reserved (2018)
 
@@ -12,7 +12,7 @@ Dependant modules (must be installed to function):
        popular object storage protocol called pickle. This pickle object
        is what is encrypted and stored in the users specified directory.
 
-    --- (the ones below should come pre-installed with Python 3+) ---- 
+    --- (the ones below should come pre-installed with Python 3+) ----
 
     4) tkinter: used to create the gui
     5) sys: interface with user system
@@ -40,7 +40,7 @@ class VaultX(Frame):
         Frame.__init__(self, parent)
         self.parent = parent
         self.parent.resizable(width=False, height=False)
-        self.winfo_toplevel().title('VaultX Beta (0.0.6)')
+        self.winfo_toplevel().title('VaultX (0.1.2)')
         self.option_list = config.option_list
         self.verbose = StringVar()
         self.option = IntVar()
@@ -53,13 +53,13 @@ class VaultX(Frame):
         app_frame = Frame(self.parent)
         lock_window = Frame(app_frame)
         button_frame = Frame(lock_window)
-  
+
         self.text_widget = Label(lock_window, textvariable=self.verbose, anchor=W)
         key_entry = Entry(lock_window, show='*',justify='center')
 
         unlock_btn = Button(button_frame, text='Unlock Existing Vault',
             command=lambda: self.unlock(self.parent, lock_window, key_entry, app_frame))
-        new_wallet_btn = Button(button_frame, text='Encrypt New Vault', 
+        new_wallet_btn = Button(button_frame, text='Encrypt New Vault',
             command=lambda: self.new_vault(lock_window, key_entry, app_frame))
 
         app_frame.grid_rowconfigure(0, weight=1)
@@ -109,7 +109,7 @@ class VaultX(Frame):
 
         self.top_frame = Frame(self.parent,pady=5, padx=5)
         dapp_frame = Frame(self.top_frame)
-        
+
 
         self.top_frame.grid_rowconfigure(0, weight=1)
         self.top_frame.grid_rowconfigure(1, weight=1)
@@ -140,7 +140,7 @@ class VaultX(Frame):
         remove_wallet.grid(column=1, row=0, sticky=W)
         copy.grid(column=0, row=1, sticky=E)
         display.grid(column=1, row=1, sticky=W)
-        
+
         for i in range(len(select_btns)):
             select_btns[i].grid(column=0, row=i, sticky=W)
 
@@ -149,7 +149,7 @@ class VaultX(Frame):
         self.text_widget = Label(message_frame, textvariable=self.verbose)
         self.text_widget.grid(sticky=S)
         message_frame.grid(column=0, row=2)
-        
+
         left_frame.grid(column=0, row=0)
         right_frame.grid(column=1, row=0)
 
@@ -177,7 +177,7 @@ class VaultX(Frame):
             else:
                 self.verbose.set(no_msg)
         except:
-            self.verbose.set(no_msg)  
+            self.verbose.set(no_msg)
 
     def display_data(self, listbox):
         try:
@@ -232,8 +232,8 @@ class VaultX(Frame):
         pkey_entry = Entry(add_wallet_frame)
         pkey_entry.grid(row=7)
 
-        Button(add_wallet_frame, text='Add Entry', command=lambda: 
-                    self.gui_new_wallet(name_entry.get(), pas_entry.get(), 
+        Button(add_wallet_frame, text='Add Entry', command=lambda:
+                    self.gui_new_wallet(name_entry.get(), pas_entry.get(),
                     seed_entry.get(), pkey_entry.get(), wallet_add_window)).grid(row=10)
 
         add_wallet_frame.pack(expand=True, fill='both')
