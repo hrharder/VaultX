@@ -29,7 +29,7 @@ class Vault():
                                 self.temp_key, self.bsize)
 
         except ValueError:
-            self.message = 'Incorrect password or corrupted file.'
+            self.message = 'Incorrect password.'
             return 0
 
         except IOError:

@@ -15,7 +15,7 @@ ___
 	- Package into EXE/.APP executable
 		- [py2exe](http://www.py2exe.org/index.cgi/Tutorial) for Windows
 		- [py2app](https://py2app.readthedocs.io/en/latest/) for macOS
-		- [whyareyoureadingthis](#) for Linux
+		- [whyareyouevenreadingthis](#) for Linux
 	- In the future, I might make a distributable version, if someone asks.
 
 4. The first time you launch VaultX, enter a secure password when promoted and click ```"Create new Vault,"``` and that's it! Next time you launch, click ```Unlock Vault``` instead to read and add data.

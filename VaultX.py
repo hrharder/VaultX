@@ -27,7 +27,7 @@ import sys, os, pickle
 Custom 'modules': (written for this program)
     - config:  containing file path and other config information that users can
                and should modify.
-    - vault: secure class that handles encryption/decryption and storage of data
+    - vault: secure class handeling encryption/decryption and storage of data
 '''
 
 import config
@@ -116,7 +116,6 @@ class VaultX(Frame):
         self.top_frame = Frame(self.parent,pady=5, padx=5)
         dapp_frame = Frame(self.top_frame)
 
-
         self.top_frame.grid_rowconfigure(0, weight=1)
         self.top_frame.grid_rowconfigure(1, weight=1)
 
@@ -168,14 +167,13 @@ class VaultX(Frame):
 
         self.text_widget = Label(message_frame, textvariable=self.verbose)
         self.text_widget.grid(sticky=S)
-        message_frame.grid(column=0, row=2)
 
+        message_frame.grid(column=0, row=2)
         left_frame.grid(column=0, row=0)
         right_frame.grid(column=1, row=0)
-
         dapp_frame.grid(column=0, row=0)
-        button_frame.place()
 
+        button_frame.place()
         self.top_frame.pack(expand=True, fill='both')
         self.top_frame.mainloop()
 
