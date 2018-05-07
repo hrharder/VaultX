@@ -3,6 +3,7 @@
 
 I created this program to manage my private keys for my various cryptocurrency wallets, being frustrated with the software that was available, and not wanting to spend money on a hardware wallet. For the curious, the entire version history is included, even the first, admitidetly naive approach that stored keys in plain-text. (I think I removed all hardcoded data from the early versions, but if I didn't enjoy your free money.)
 
+All data is stored in a single file that is nonsense to anyone without your password and a copy of this software. Your security is your responsibility.
 ___
 #### Directions:
 
@@ -15,14 +16,14 @@ ___
 		- [py2exe](http://www.py2exe.org/index.cgi/Tutorial) for Windows
 		- [py2app](https://py2app.readthedocs.io/en/latest/) for macOS
 		- [whyareyoureadingthis](#) for Linux
-	- In the future, I might make a distributable version, but that's a lot of work.
+	- In the future, I might make a distributable version, if someone asks.
 
-4. The first time you launch VaultX, enter a secure password when promted and click ```"Create new Vault,"``` and that's it! Next time you launch, click ```Unlock Vault``` to read and add data.
+4. The first time you launch VaultX, enter a secure password when promoted and click ```"Create new Vault,"``` and that's it! Next time you launch, click ```Unlock Vault``` instead to read and add data.
 
 ___
 ### Required modules (install from PyPI with ```pip```):
 
-I recommend  running VaultX in a ```virtualenv``` running Python3.x with these dependencies installed.
+I recommend  running VaultX in a ```virtualenv``` running Python3.x with these dependencies installed, but if you don't know what that means, it doesn't really matter, just make sure you are using Python 3.
 
 - PyPerClip ([PyPI link](https://pypi.org/project/pyperclip/)): used to copy data to the clipboard. Install with:
 
