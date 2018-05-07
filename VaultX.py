@@ -149,7 +149,7 @@ class VaultX(Frame):
 
         copy = Button(button_frame,
             text='Copy Data',
-            command=lambda: self.copy_data(listbox))
+            command=lambda: self.vault.copy_data(listbox, self.option.get()))
 
         display = Button(button_frame,
             text='Display Data',
@@ -176,29 +176,6 @@ class VaultX(Frame):
         button_frame.place()
         self.top_frame.pack(expand=True, fill='both')
         self.top_frame.mainloop()
-
-    def copy_data(self, listbox):
-        yes_msg = 'Sucessfully copied information.'
-        no_msg = 'Please select an entry.'
-        try:
-            value = listbox.get(listbox.curselection())
-            int_option = self.option.get()
-            if int_option == 1:
-                pyp.copy(self.vault.wallets[value].pas)
-                self.verbose.set(yes_msg)
-            elif int_option == 2:
-                pyp.copy(self.vault.wallets[value].seed)
-                self.verbose.set(yes_msg)
-            elif int_option == 3:
-                pyp.copy(self.vault.wallets[value].pkey)
-                self.verbose.set(yes_msg)
-            elif int_option == 4:
-                pyp.copy(self.vault.wallets[value].addr)
-                self.verbose.set(yes_msg)
-            else:
-                self.verbose.set(no_msg)
-        except:
-            self.verbose.set(no_msg)
 
     def display_data(self, listbox):
         try:
