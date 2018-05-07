@@ -156,7 +156,10 @@ class VaultX(Frame):
 
         display = Button(button_frame,
             text='Display Data',
-            command=lambda: self.display_data(listbox))
+            command=lambda: self.vault.display_data(
+                listbox.get(listbox.curselection()),
+                self.option.get(),
+                self.verbose))
 
         new_wallet.grid(column=0, row=0, sticky=E)
         remove_wallet.grid(column=1, row=0, sticky=W)
@@ -179,19 +182,6 @@ class VaultX(Frame):
         button_frame.place()
         self.top_frame.pack(expand=True, fill='both')
         self.top_frame.mainloop()
-
-    def display_data(self, listbox):
-        try:
-            value = listbox.get(listbox.curselection())
-            int_option = self.option.get()
-            if int_option == 1:
-                self.verbose.set(self.vault.wallets[value].pas)
-            elif int_option == 2:
-                self.verbose.set(self.vault.wallets[value].seed)
-            elif int_option == 3:
-                self.verbose.set(self.vault.wallets[value].pkey)
-        except:
-            self.verbose.set('Please select an entry.')
 
     def encrypt_data(self):
         self.vault.update_data()
@@ -233,12 +223,13 @@ class VaultX(Frame):
         pkey_entry = Entry(add_wallet_frame)
         pkey_entry.grid(row=7)
 
-        Label(add_wallet_frame, text='Address:').grid(row=6)
+        Label(add_wallet_frame, text='Address:').grid(row=8)
         addr_entry = Entry(add_wallet_frame)
-        addr_entry.grid(row=7)
+        addr_entry.grid(row=9)
 
         Button(add_wallet_frame, text='Add Entry', command=lambda:
-                    self.gui_new_wallet(name_entry.get(),
+                    self.gui_new_wallet(
+                        name_entry.get(),
                         pas_entry.get(),
                         seed_entry.get(),
                         pkey_entry.get(),

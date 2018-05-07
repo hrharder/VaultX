@@ -4,6 +4,7 @@
 # By Henry Harder
 
 import pyAesCrypt as pac
+import pyperclip as pyp
 import os, pickle
 import config
 
@@ -13,6 +14,12 @@ class Vault():
         self.temp_key = ''
         self.message = ''
         self.bsize = 64*1024
+
+        self.resp = {
+            'yes' : 'Sucessfully copied information.',
+            'no' : 'Please select an entry.',
+            'fail' : 'Something went wrong'
+        }
 
     def add(self, wallet):
         self.wallets[wallet.name] = wallet
@@ -53,26 +60,39 @@ class Vault():
         os.remove(config.temp_n)
         self.message = 'Successfully updated secure data.'
 
-    def copy_data(self, value, option, verbose):
-        yes_msg = 'Sucessfully copied information.'
-        no_msg = 'Please select an entry.'
+    def copy_data(self, value, option, msg):
         try:
             if option == 1:
                 pyp.copy(self.wallets[value].pas)
-                verbose.set(yes_msg)
+                msg.set(self.resp['yes'])
             elif option == 2:
                 pyp.copy(self.wallets[value].seed)
-                verbose.set(yes_msg)
+                msg.set(self.resp['yes'])
             elif option == 3:
                 pyp.copy(self.wallets[value].pkey)
-                verbose.set(yes_msg)
+                msg.set(self.resp['yes'])
             elif option == 4:
                 pyp.copy(self.wallets[value].addr)
-                verbose.set(yes_msg)
+                msg.set(self.resp['yes'])
             else:
-                verbose.set(no_msg)
+                msg.set(self.resp['no'])
         except:
-            verbose.set('Something is wrong')
+            verbose.set(self.resp['fail'])
+
+    def display_data(self, value, option, msg):
+        try:
+            if option == 1:
+                msg.set(self.wallets[value].addr)
+            elif option == 2:
+                msg.set(self.wallets[value].pas)
+            elif option == 3:
+                msg.set(self.wallets[value].seed)
+            elif option == 4:
+                msg.set(self.wallets[value].pkey)
+            else:
+                msg.set(self.resp['no'])
+        except:
+            msg.set(self.resp['fail'])
 
 class Wallet():
     def __init__(self, name, passw, seed, privkey='none', addr='none'):
