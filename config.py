@@ -8,6 +8,10 @@
 data_dir = '/' # CHANGE THIS
 ##
 ##
+
+### Ignore this, and don't change it unless you know what you are
+### doing or want to break something. 
+
 data_e = 'data.nonya'
 data_u = 'other.nonya'
 temp_n = 'temp.nonya'
