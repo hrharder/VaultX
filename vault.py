@@ -53,22 +53,21 @@ class Vault():
         os.remove(config.temp_n)
         self.message = 'Successfully updated secure data.'
 
-    def copy_data(self, listbox, option):
+    def copy_data(self, listbox, option, verbose):
         yes_msg = 'Sucessfully copied information.'
         no_msg = 'Please select an entry.'
         try:
             value = listbox.get(listbox.curselection())
-            #int_option = self.option.get()
-            if int_option == 1:
+            if option == 1:
                 pyp.copy(self.wallets[value].pas)
                 verbose.set(yes_msg)
-            elif int_option == 2:
+            elif option == 2:
                 pyp.copy(self.wallets[value].seed)
                 verbose.set(yes_msg)
-            elif int_option == 3:
+            elif option == 3:
                 pyp.copy(self.wallets[value].pkey)
                 verbose.set(yes_msg)
-            elif int_option == 4:
+            elif option == 4:
                 pyp.copy(self.wallets[value].addr)
                 verbose.set(yes_msg)
             else:
