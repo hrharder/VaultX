@@ -149,7 +149,8 @@ class VaultX(Frame):
 
         copy = Button(button_frame,
             text='Copy Data',
-            command=lambda: self.vault.copy_data(listbox,
+            command=lambda: self.vault.copy_data(
+                listbox.get(listbox.curselection()),
                 self.option.get(),
                 self.verbose))
 
