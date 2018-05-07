@@ -61,20 +61,20 @@ class Vault():
             #int_option = self.option.get()
             if int_option == 1:
                 pyp.copy(self.wallets[value].pas)
-                self.verbose.set(yes_msg)
+                verbose.set(yes_msg)
             elif int_option == 2:
                 pyp.copy(self.wallets[value].seed)
-                self.verbose.set(yes_msg)
+                verbose.set(yes_msg)
             elif int_option == 3:
                 pyp.copy(self.wallets[value].pkey)
-                self.verbose.set(yes_msg)
+                verbose.set(yes_msg)
             elif int_option == 4:
                 pyp.copy(self.wallets[value].addr)
-                self.verbose.set(yes_msg)
+                verbose.set(yes_msg)
             else:
-                self.verbose.set(no_msg)
+                verbose.set(no_msg)
         except:
-            self.verbose.set(no_msg)
+            verbose.set(no_msg)
 
 class Wallet():
     def __init__(self, name, passw, seed, privkey='none', addr='none'):

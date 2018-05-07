@@ -149,7 +149,9 @@ class VaultX(Frame):
 
         copy = Button(button_frame,
             text='Copy Data',
-            command=lambda: self.vault.copy_data(listbox, self.option.get()))
+            command=lambda: self.vault.copy_data(listbox,
+                self.option.get(),
+                self.verbose))
 
         display = Button(button_frame,
             text='Display Data',
@@ -194,8 +196,8 @@ class VaultX(Frame):
         self.vault.update_data()
         self.verbose.set(self.vault.message)
 
-    def gui_new_wallet(self, n, ps, sd, pk, window):
-        self.vault.add(Wallet(n, ps, sd, pk))
+    def gui_new_wallet(self, n, ps, sd, pk, ad, window):
+        self.vault.add(Wallet(n, ps, sd, pk, ad))
         window.destroy()
         self.top_frame.destroy()
         self.make_widgets(self.option_list)
@@ -230,11 +232,16 @@ class VaultX(Frame):
         pkey_entry = Entry(add_wallet_frame)
         pkey_entry.grid(row=7)
 
+        Label(add_wallet_frame, text='Address:').grid(row=6)
+        addr_entry = Entry(add_wallet_frame)
+        addr_entry.grid(row=7)
+
         Button(add_wallet_frame, text='Add Entry', command=lambda:
                     self.gui_new_wallet(name_entry.get(),
                         pas_entry.get(),
                         seed_entry.get(),
                         pkey_entry.get(),
+                        addr_entry.get(),
                         wallet_add_window)).grid(row=10)
 
         add_wallet_frame.pack(expand=True, fill='both')
