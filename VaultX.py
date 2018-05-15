@@ -1,25 +1,8 @@
 #!/usr/local/bin/python3
-# VaultX (0.1.2) @ dev
-# Version date: 6 May 2018
+# VaultX (0.1.2b) @ dev
+# Version date: 8 May 2018
 # By Henry Harder
 
-'''
-Dependant modules (must be installed to function):
-    1) pyperclip: used to copy data to the clipboard
-    2) pyAesCrypt: used to securely encrypt all user data
-    3) pickle: the data structure used to store user data, using a
-       popular object storage protocol called pickle. This pickle object
-       is what is encrypted and stored in the users specified directory.
-
-    --- (the ones below should come pre-installed with Python 3+) ----
-
-    4) tkinter: used to create the GUI
-    5) sys: interface with user system
-    6) os: used to change directory
-'''
-
-import pyperclip as pyp
-import pyAesCrypt as pac
 from tkinter import*
 import sys, os, pickle
 
@@ -44,7 +27,7 @@ class VaultX(Frame):
         self.option_list = config.option_list
         self.verbose = StringVar()
         self.option = IntVar()
-        self.vault = Vault()
+        self.vault = Vault(self.verbose)
         self.text_widget = None
         self.top_frame = None
         self.main_gate()
@@ -93,26 +76,25 @@ class VaultX(Frame):
 
     def unlock(self, parent, lock_window, key_entry, app_frame):
         if self.vault.open(key_entry) == 1:
-            self.verbose.set(self.vault.message)
             lock_window.destroy()
             app_frame.destroy()
             self.make_widgets(self.option_list)
         else:
-            self.verbose.set(self.vault.message)
             return
 
     def new_vault(self, lock_window, key_entry, app_frame):
-        self.vault = Vault()
-        while len(key_entry.get()) < 4:
+        self.vault = Vault(self.verbose)
+        if len(key_entry.get()) < 4:
             self.verbose.set('Please enter a longer encryption key.')
             return
+
+        self.vault.cache_key(key_entry)
         self.verbose.set('New vault created with password.')
         app_frame.destroy()
         self.make_widgets(self.option_list)
 
     def make_widgets(self, option_list):
         self.winfo_toplevel().title('VaultX 0.1.2')
-
         self.top_frame = Frame(self.parent,pady=5, padx=5)
         dapp_frame = Frame(self.top_frame)
 
@@ -185,7 +167,6 @@ class VaultX(Frame):
 
     def encrypt_data(self):
         self.vault.update_data()
-        self.verbose.set(self.vault.message)
 
     def gui_new_wallet(self, n, ps, sd, pk, ad, window):
         self.vault.add(Wallet(n, ps, sd, pk, ad))
@@ -229,12 +210,9 @@ class VaultX(Frame):
 
         Button(add_wallet_frame, text='Add Entry', command=lambda:
                     self.gui_new_wallet(
-                        name_entry.get(),
-                        pas_entry.get(),
-                        seed_entry.get(),
-                        pkey_entry.get(),
-                        addr_entry.get(),
-                        wallet_add_window)).grid(row=10)
+                        name_entry.get(), pas_entry.get(),
+                        seed_entry.get(), pkey_entry.get(),
+                        addr_entry.get(), wallet_add_window)).grid(row=10)
 
         add_wallet_frame.pack(expand=True, fill='both')
         add_wallet_frame.mainloop()
@@ -244,7 +222,7 @@ class VaultX(Frame):
 # Begin main loop
 
 if __name__ == '__main__':
-    os.chdir(config.data_dir)
+    #os.chdir(config.data_dir)
     main_gui = VaultX(Tk())
     main_gui.mainloop()
 

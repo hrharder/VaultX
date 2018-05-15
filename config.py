@@ -3,9 +3,14 @@
 # Version date: 5 May 2018
 # By Henry Harder
 
+#''' FOR TESTING ONLY, DELETE LINES 5-8 and uncomment 12
+#import os
+#data_dir = os.path.dirname(os.path.realpath(__file__))
+#'''
+
 ## Insert your private Vault directory here
 ##
-data_dir = '/' # CHANGE THIS
+#data_dir = '/' # CHANGE THIS
 ##
 ##
 
