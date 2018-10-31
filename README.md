@@ -1,9 +1,9 @@
 # VaultX
 #### Locally encrypt and store private data on your machine.
 
-I created this program to manage my private keys for my various cryptocurrency wallets, being frustrated with the software that was available, and not wanting to spend money on a hardware wallet. For the curious, the entire version history is included, even the first, admitidetly naive approach that stored keys in plain-text. (I think I removed all hardcoded data from the early versions, but if I didn't enjoy your free money.)
+I created this program to manage my private keys for my various cryptocurrency wallets, being frustrated with the software that was available, and not wanting to spend money on a hardware wallet. For the curious, the entire version history is included, even the first, admitidetly naive approach that stored keys in plain-text. (I think I removed all hardcoded data from the early versions, but if I didn't, enjoy your free money.)
 
-All data is stored in a single file that is nonsense to anyone without your password and a copy of this software. Your security is your responsibility.
+All data is stored in a single file that is nonsense to anyone without your password and a copy of this software. _Your security is your responsibility._
 ___
 #### Directions:
 
